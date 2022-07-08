@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/BobbyJump/food-site/issues"
   },
-  "homepage": "https://github.com/BobbyJump/food-site#readme"
+  "homepage": "https://github.com/BobbyJump/food-site#readme",
+  "devDependencies": {
+    "json-server": "^0.17.0"
+  }
 }
