@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/BobbyJump/food-site#readme",
   "devDependencies": {
-    "json-server": "^0.17.0"
+    "json-server": "^0.4.2"
   }
 }
