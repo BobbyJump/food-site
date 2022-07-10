@@ -61,4 +61,4 @@ function timer() {
     setTimer('.timer', futureDate);
 }
 
-module.exports = timer;
+export default timer;
