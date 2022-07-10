@@ -206,8 +206,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function forms() {
-    const forms = document.querySelectorAll('form');
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./js/modules/modal.js");
+
+
+function forms(formSelector, modalTimerID) {
+    const forms = document.querySelectorAll(formSelector);
 
     const message = {
         loading: 'img/form/spinner.svg',
@@ -266,7 +269,7 @@ function forms() {
         const prevModalDialog = document.querySelector('.modal__dialog');
 
         prevModalDialog.style.display = 'none';
-        openModal();
+        (0,_modal__WEBPACK_IMPORTED_MODULE_0__.openModal)('.modal', modalTimerID);
 
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
@@ -281,7 +284,7 @@ function forms() {
         setTimeout(() => {
             thanksModal.remove();
             prevModalDialog.style.display = 'block';
-            closeModal();
+            (0,_modal__WEBPACK_IMPORTED_MODULE_0__.closeModal)('.modal');
         }, 4000);
     }
 }
@@ -298,38 +301,42 @@ function forms() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */   "closeModal": () => (/* binding */ closeModal),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "openModal": () => (/* binding */ openModal)
 /* harmony export */ });
-function modal() {
-    const modalTrigger = document.querySelectorAll('[data-modal]'),
-        modal = document.querySelector('.modal');
+const closeModal = (modalSelector) => {
+    const modal = document.querySelector(modalSelector);
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+};
 
+const openModal = (modalSelector, modalTimerID) => {
+    const modal = document.querySelector(modalSelector);
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
 
-    const closeModal = () => {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-    };
-
-    const openModal = () => {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+    if(modalTimerID){
         clearInterval(modalTimerID);
-    };
+    }
+};
 
-    const modalTimerID = setTimeout(openModal, 50000);
+function modal(triggerSelector, modalSelector, modalTimerID) {
+    const modalTrigger = document.querySelectorAll(triggerSelector),
+        modal = document.querySelector(modalSelector);
 
     modalTrigger.forEach(item => {
-        item.addEventListener('click', openModal);
+        item.addEventListener('click', () => openModal(modalSelector, modalTimerID));
     });
     modal.addEventListener('click', (e) => {
         if (e.target === modal || e.target.getAttribute('data-close') == '') {
-            closeModal();
+            closeModal(modalSelector);
         }
     });
 
     const openModalByScroll = () => {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
-            openModal();
+            openModal(modalSelector, modalTimerID);
             clearInterval(modalTimerID);
             window.removeEventListener('scroll', openModalByScroll);
         }
@@ -339,6 +346,7 @@ function modal() {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modal);
+
 
 /***/ }),
 
@@ -671,17 +679,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 document.addEventListener('DOMContentLoaded', () => {
+    const modalTimerID = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('.modal', modalTimerID), 50000);
+
     // Tabs
     (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])();
     // Timer
     (0,_modules_timer__WEBPACK_IMPORTED_MODULE_1__["default"])();
     // Modal
-    (0,_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])();
+    (0,_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('[data-modal]', '.modal', modalTimerID);
     // Menu cards
     (0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__["default"])();
     // Forms
-    (0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__["default"])();
+    (0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__["default"])('form', modalTimerID);
     // Slider
     (0,_modules_slider__WEBPACK_IMPORTED_MODULE_5__["default"])();
     // Calories calc

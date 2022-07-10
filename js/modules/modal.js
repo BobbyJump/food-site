@@ -1,33 +1,35 @@
-function modal() {
-    const modalTrigger = document.querySelectorAll('[data-modal]'),
-        modal = document.querySelector('.modal');
+const closeModal = (modalSelector) => {
+    const modal = document.querySelector(modalSelector);
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+};
 
+const openModal = (modalSelector, modalTimerID) => {
+    const modal = document.querySelector(modalSelector);
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
 
-    const closeModal = () => {
-        modal.style.display = 'none';
-        document.body.style.overflow = '';
-    };
-
-    const openModal = () => {
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+    if(modalTimerID){
         clearInterval(modalTimerID);
-    };
+    }
+};
 
-    const modalTimerID = setTimeout(openModal, 50000);
+function modal(triggerSelector, modalSelector, modalTimerID) {
+    const modalTrigger = document.querySelectorAll(triggerSelector),
+        modal = document.querySelector(modalSelector);
 
     modalTrigger.forEach(item => {
-        item.addEventListener('click', openModal);
+        item.addEventListener('click', () => openModal(modalSelector, modalTimerID));
     });
     modal.addEventListener('click', (e) => {
         if (e.target === modal || e.target.getAttribute('data-close') == '') {
-            closeModal();
+            closeModal(modalSelector);
         }
     });
 
     const openModalByScroll = () => {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
-            openModal();
+            openModal(modalSelector, modalTimerID);
             clearInterval(modalTimerID);
             window.removeEventListener('scroll', openModalByScroll);
         }
@@ -37,3 +39,4 @@ function modal() {
 }
 
 export default modal;
+export {closeModal, openModal};

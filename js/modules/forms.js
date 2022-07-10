@@ -1,5 +1,7 @@
-function forms() {
-    const forms = document.querySelectorAll('form');
+import {closeModal, openModal} from './modal';
+
+function forms(formSelector, modalTimerID) {
+    const forms = document.querySelectorAll(formSelector);
 
     const message = {
         loading: 'img/form/spinner.svg',
@@ -58,7 +60,7 @@ function forms() {
         const prevModalDialog = document.querySelector('.modal__dialog');
 
         prevModalDialog.style.display = 'none';
-        openModal();
+        openModal('.modal', modalTimerID);
 
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
@@ -73,7 +75,7 @@ function forms() {
         setTimeout(() => {
             thanksModal.remove();
             prevModalDialog.style.display = 'block';
-            closeModal();
+            closeModal('.modal');
         }, 4000);
     }
 }
