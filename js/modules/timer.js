@@ -1,6 +1,5 @@
-function timer() {
-    const futureDate = `2022-07-23`;
-
+function timer(id, futureDate) {
+    
     const getRemainingTime = endDate => {
         let days, hours, minutes, seconds;
         const time = Date.parse(endDate) - Date.parse(new Date());
@@ -58,7 +57,7 @@ function timer() {
 
     };
 
-    setTimer('.timer', futureDate);
+    setTimer(id, futureDate);
 }
 
 export default timer;

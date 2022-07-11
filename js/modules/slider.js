@@ -1,12 +1,23 @@
-function slider() {
-    const slides = document.querySelectorAll('.offer__slide'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        total = document.querySelector('#total'),
-        current = document.querySelector('#current'),
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-        slidesField = document.querySelector('.offer__slider-inner'),
-        slider = document.querySelector('.offer__slider'),
+function slider({
+    container,
+    slide,
+    nextArrow,
+    prevArrow,
+    totalCounter,
+    currentCounter,
+    wrapper,
+    field,
+    indicatorsCls,
+    dotsCls
+}) {
+    const slides = document.querySelectorAll(slide),
+        prev = document.querySelector(prevArrow),
+        next = document.querySelector(nextArrow),
+        total = document.querySelector(totalCounter),
+        current = document.querySelector(currentCounter),
+        slidesWrapper = document.querySelector(wrapper),
+        slidesField = document.querySelector(field),
+        slider = document.querySelector(container),
         dots = [],
         width = window.getComputedStyle(slidesWrapper).width;
     let offset = 0,
@@ -30,13 +41,13 @@ function slider() {
     // Dots for slider
     slider.style.position = 'relative';
     const indicators = document.createElement('ol');
-    indicators.classList.add('carousel-indicators');
+    indicators.classList.add(indicatorsCls);
     slider.append(indicators);
 
     for (let i = 0; i < slides.length; i++) {
         const dot = document.createElement('li');
         dot.setAttribute('data-slide-to', i + 1);
-        dot.classList.add('dot');
+        dot.classList.add(dotsCls);
         if (i == 0) {
             dot.style.opacity = 1;
         }

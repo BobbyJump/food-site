@@ -230,7 +230,7 @@ function forms(formSelector, modalTimerID) {
             form.insertAdjacentElement('afterend', statusMessage);
 
             const formData = new FormData(form);
-            const json = JSON.stringify(Object.fromEntries(Object.entries(formData)));
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
             (0,_services_services__WEBPACK_IMPORTED_MODULE_1__.postData)('http://localhost:3000/requests', json)
                 .then(data => {
@@ -343,15 +343,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function slider() {
-    const slides = document.querySelectorAll('.offer__slide'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        total = document.querySelector('#total'),
-        current = document.querySelector('#current'),
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-        slidesField = document.querySelector('.offer__slider-inner'),
-        slider = document.querySelector('.offer__slider'),
+function slider({
+    container,
+    slide,
+    nextArrow,
+    prevArrow,
+    totalCounter,
+    currentCounter,
+    wrapper,
+    field,
+    indicatorsCls,
+    dotsCls
+}) {
+    const slides = document.querySelectorAll(slide),
+        prev = document.querySelector(prevArrow),
+        next = document.querySelector(nextArrow),
+        total = document.querySelector(totalCounter),
+        current = document.querySelector(currentCounter),
+        slidesWrapper = document.querySelector(wrapper),
+        slidesField = document.querySelector(field),
+        slider = document.querySelector(container),
         dots = [],
         width = window.getComputedStyle(slidesWrapper).width;
     let offset = 0,
@@ -375,13 +386,13 @@ function slider() {
     // Dots for slider
     slider.style.position = 'relative';
     const indicators = document.createElement('ol');
-    indicators.classList.add('carousel-indicators');
+    indicators.classList.add(indicatorsCls);
     slider.append(indicators);
 
     for (let i = 0; i < slides.length; i++) {
         const dot = document.createElement('li');
         dot.setAttribute('data-slide-to', i + 1);
-        dot.classList.add('dot');
+        dot.classList.add(dotsCls);
         if (i == 0) {
             dot.style.opacity = 1;
         }
@@ -466,10 +477,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function tabs() {
-    const tabs = document.querySelectorAll('.tabheader__item'),
-        tabsContent = document.querySelectorAll('.tabcontent'),
-        tabsParent = document.querySelector('.tabheader__items');
+function tabs(tabsSlctr, tabsContentSlctr, tabsParentSlctr, activeClass) {
+    const tabs = document.querySelectorAll(tabsSlctr),
+        tabsContent = document.querySelectorAll(tabsContentSlctr),
+        tabsParent = document.querySelector(tabsParentSlctr);
 
     const hideTabContent = () => {
         tabsContent.forEach(item => {
@@ -477,13 +488,13 @@ function tabs() {
         });
 
         tabs.forEach(tab => {
-            tab.classList.remove('tabheader__item_active');
+            tab.classList.remove(activeClass);
         });
     };
 
     const showTabContent = (i = 0) => {
         tabsContent[i].style.display = 'block';
-        tabs[i].classList.add('tabheader__item_active');
+        tabs[i].classList.add(activeClass);
     };
 
     hideTabContent();
@@ -492,7 +503,7 @@ function tabs() {
     tabsParent.addEventListener('click', (e) => {
         const target = e.target;
 
-        if (target && target.classList.contains('tabheader__item')) {
+        if (target && target.classList.contains(tabsSlctr.slice(1))) {
             tabs.forEach((item, i) => {
                 if (target == item) {
                     hideTabContent();
@@ -517,9 +528,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-function timer() {
-    const futureDate = `2022-07-23`;
-
+function timer(id, futureDate) {
+    
     const getRemainingTime = endDate => {
         let days, hours, minutes, seconds;
         const time = Date.parse(endDate) - Date.parse(new Date());
@@ -577,7 +587,7 @@ function timer() {
 
     };
 
-    setTimer('.timer', futureDate);
+    setTimer(id, futureDate);
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timer);
@@ -704,9 +714,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalTimerID = setTimeout(() => (0,_modules_modal__WEBPACK_IMPORTED_MODULE_2__.openModal)('.modal', modalTimerID), 50000);
 
     // Tabs
-    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__["default"])('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
     // Timer
-    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_1__["default"])();
+    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_1__["default"])('.timer', '2022-07-30');
     // Modal
     (0,_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('[data-modal]', '.modal', modalTimerID);
     // Menu cards
@@ -714,7 +724,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Forms
     (0,_modules_forms__WEBPACK_IMPORTED_MODULE_4__["default"])('form', modalTimerID);
     // Slider
-    (0,_modules_slider__WEBPACK_IMPORTED_MODULE_5__["default"])();
+    (0,_modules_slider__WEBPACK_IMPORTED_MODULE_5__["default"])({
+        container: '.offer__slider',
+        slide: '.offer__slide',
+        nextArrow: '.offer__slider-next',
+        prevArrow: '.offer__slider-prev',
+        totalCounter: '#total',
+        currentCounter: '#current',
+        wrapper: '.offer__slider-wrapper',
+        field: '.offer__slider-inner',
+        indicatorsCls: 'carousel-indicators',
+        dotsCls: 'dot'
+    });
     // Calories calc
     (0,_modules_calc__WEBPACK_IMPORTED_MODULE_6__["default"])();
 });
